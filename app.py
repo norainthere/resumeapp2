@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # Set up OpenAI Client
-openai_client = openai.api_key = os.environ.get("OPENAI_API_KEY")
+openai_client = openai.ApiClient()
 
 # Set up audio processing parameters
 sr = 44100 # Sample rate
@@ -56,4 +56,3 @@ if audio_file is not None:
 
     # Display the Matplotlib figure in Streamlit
     st.pyplot(fig)
-
