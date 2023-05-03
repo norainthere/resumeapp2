@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # Set up OpenAI Client
-openai_client = openai.api_key = st.secrets["openai"]["openai_api_key"]
+openai_client = openai.Client(api_key=openai.api_key)
 
 # Set up audio processing parameters
 sr = 44100 # Sample rate
@@ -36,10 +36,13 @@ if audio_file is not None:
 
     # Use the OpenAI API to generate a text prompt for the equalization curve
     prompt = f"Generate an equalization curve for the uploaded audio file. {additional_prompt}"
-    response = openai_client.Completion.create(
+    response = openai.Completion.create(
         engine="davinci",
         prompt=prompt,
-        max_tokens=2000
+        max_tokens=2000,
+        n=1,
+        stop=None,
+        temperature=0.7,
     )
     eq_text = response.choices[0].text
 
@@ -56,3 +59,4 @@ if audio_file is not None:
 
     # Display the Matplotlib figure in Streamlit
     st.pyplot(fig)
+
