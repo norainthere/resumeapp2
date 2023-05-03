@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # Set up OpenAI Client
-openai_client = openai.api_key = st.secrets["openai"]["openai_api_key"]
+openai_client = openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # Set up audio processing parameters
 sr = 44100 # Sample rate
