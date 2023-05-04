@@ -22,7 +22,7 @@ fig, ax = plt.subplots()
 st.title("Equalization Curve Recommendation")
 
 # Upload an audio file
-audio_file = st.file_uploader("Upload an audio file", type=["mp3", "wav", "ogg"])
+audio_file = st.file_uploader("Upload your audio file", type=["mp3", "wav", "ogg"])
 
 # Get user input for additional text prompt
 additional_prompt = st.text_input("Additional prompt (optional)")
