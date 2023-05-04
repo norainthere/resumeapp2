@@ -18,6 +18,9 @@ hop_length = n_fft // 4 # Hop length for STFT
 # Set up Matplotlib figure for the equalization curve
 fig, ax = plt.subplots()
 
+# Suppress warning message when calling st.pyplot()
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 # App framework
 st.title("Equalization Curve Recommendation")
 
@@ -30,7 +33,7 @@ additional_prompt = st.text_input("Additional prompt (optional)")
 # Generate equalization curve based on the uploaded audio file and additional prompt
 if audio_file is not None:
     # Load the audio file and extract its spectral content
-    y, _ = librosa.load(audio_file, sr=sr)
+    y, _ = librosa.load(audio_file, sr=sr, mono=True)
     D = librosa.stft(y, n_fft=n_fft, hop_length=hop_length, center=True)
     S = librosa.amplitude_to_db(abs(D), ref=1.0)
 
@@ -56,3 +59,4 @@ if audio_file is not None:
 
     # Display the Matplotlib figure in Streamlit
     st.pyplot(fig)
+
