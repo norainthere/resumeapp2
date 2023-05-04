@@ -1,11 +1,11 @@
-import os
 import streamlit as st
 import openai
 import librosa
 import matplotlib.pyplot as plt
+from apikey import API_KEY
 
-# Fetch OpenAI API key from environment variable
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+# Set the OpenAI API key
+openai.api_key = API_KEY
 
 # Set up audio processing parameters
 sr = 44100 # Sample rate
