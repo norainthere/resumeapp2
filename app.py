@@ -20,13 +20,13 @@ hop_length = n_fft // 4 # Hop length for STFT
 fig, ax = plt.subplots()
 
 # App framework
-st.title("Equalization Curve Recommendation")
+st.title("Ezra")
 
 # Get user input for additional text prompt
-additional_prompt = st.text_input("Additional prompt (optional)")
+additional_prompt = st.text_input("Describe the qualities of your desired eq")
 
 # Upload an audio file
-audio_file = st.file_uploader("Upload an audio file", type=["mp3", "wav", "ogg"])
+audio_file = st.file_uploader("Upload your audio file", type=["mp3", "wav", "ogg"])
 
 # Generate equalization curve based on the uploaded audio file and additional prompt
 if audio_file is not None:
@@ -38,15 +38,22 @@ if audio_file is not None:
     # Use the OpenAI API to generate a text prompt for the equalization curve
     prompt = f"Generate an equalization curve for the uploaded audio file. {additional_prompt}"
     response = openai.Completion.create(
-        engine=openai_model,
+        engine="davinci",
         prompt=prompt,
-        max_tokens=2000,
-        api_key=openai.api_key
+        max_tokens=2000
     )
     eq_text = response.choices[0].text
 
     # Parse the equalization curve from the generated text
-    eq_curve = list(map(float, eq_text.strip().split()))
+    if eq_text and len(eq_text.strip()) > 0:
+        try:
+            eq_curve = list(map(float, eq_text.strip().split()))
+        except ValueError:
+            st.error("Failed to parse equalization curve. Please try again with a different prompt.")
+            st.stop()
+    else:
+        st.error("Equalization curve not found. Please try again with a different prompt.")
+        st.stop()
 
     # Plot the equalization curve on the Matplotlib figure
     ax.plot(eq_curve)
@@ -56,8 +63,5 @@ if audio_file is not None:
     ax.set_ylabel("Gain (dB)")
     ax.set_title("Recommended Equalization Curve")
 
-    # Display the text prompt in Streamlit
-    st.write(f"Text prompt: {prompt}")
-
     # Display the Matplotlib figure in Streamlit
-    st.pyplot(fig)
+    st.pyplot(fig) 
