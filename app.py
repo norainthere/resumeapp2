@@ -2,10 +2,10 @@ import streamlit as st
 import openai
 import librosa
 import matplotlib.pyplot as plt
-from apikey import API_KEY
+import os
 
 # Set the OpenAI API key
-openai.api_key = API_KEY
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # Set up audio processing parameters
 sr = 44100 # Sample rate
@@ -18,11 +18,11 @@ fig, ax = plt.subplots()
 # App framework
 st.title("Equalization Curve Recommendation")
 
-# Upload an audio file
-audio_file = st.file_uploader("Upload an audio file", type=["mp3", "wav", "ogg"])
-
 # Get user input for additional text prompt
 additional_prompt = st.text_input("Additional prompt (optional)")
+
+# Upload an audio file
+audio_file = st.file_uploader("Upload an audio file", type=["mp3", "wav", "ogg"])
 
 # Generate equalization curve based on the uploaded audio file and additional prompt
 if audio_file is not None:
@@ -50,6 +50,9 @@ if audio_file is not None:
     ax.set_xlabel("Frequency (Hz)")
     ax.set_ylabel("Gain (dB)")
     ax.set_title("Recommended Equalization Curve")
+
+    # Display the text prompt in Streamlit
+    st.write(f"Text prompt: {prompt}")
 
     # Display the Matplotlib figure in Streamlit
     st.pyplot(fig)
