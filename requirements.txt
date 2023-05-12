@@ -1,4 +1,4 @@
-streamlit==0.91.2
+streamlit==0.87.0
 openai==0.10.2
 librosa==0.8.1
 matplotlib==3.4.2
