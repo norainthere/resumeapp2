@@ -27,7 +27,7 @@ cfgv==3.3.1
 chardet==5.1.0
 charset-normalizer==3.1.0
 chromadb==0.3.21
-click==7.1.2
+click>=7.1.2
 clickhouse-connect==0.5.20
 colorama==0.4.6
 composer==0.14.0
