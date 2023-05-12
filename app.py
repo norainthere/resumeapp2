@@ -4,8 +4,12 @@ import librosa
 import matplotlib.pyplot as plt
 import os
 
-# Set the OpenAI API key
+# Fetch OpenAI API key from environment variable
 openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+# Set the OpenAI API key
+openai.api_key = st.secrets["openai"]["openai_api_key"]
+openai_model = 'text-davinci-003'
 
 # Set up audio processing parameters
 sr = 44100 # Sample rate
