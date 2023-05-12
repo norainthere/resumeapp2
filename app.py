@@ -38,9 +38,10 @@ if audio_file is not None:
     # Use the OpenAI API to generate a text prompt for the equalization curve
     prompt = f"Generate an equalization curve for the uploaded audio file. {additional_prompt}"
     response = openai.Completion.create(
-        engine="davinci",
+        engine=openai_model,
         prompt=prompt,
-        max_tokens=2000
+        max_tokens=2000,
+        api_key=openai.api_key
     )
     eq_text = response.choices[0].text
 
@@ -60,4 +61,3 @@ if audio_file is not None:
 
     # Display the Matplotlib figure in Streamlit
     st.pyplot(fig)
-
