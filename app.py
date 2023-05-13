@@ -44,12 +44,18 @@ if audio_file is not None:
     )
     eq_text = response.choices[0].text
 
+    # Print the generated text to the console for debugging
+    print(eq_text)
+
     # Parse the equalization curve from the generated text
     if eq_text and len(eq_text.strip()) > 0:
         try:
             eq_curve = list(map(float, eq_text.strip().split()))
         except ValueError:
-            st.error("Failed to parse equalization curve. Please try again with a different prompt.")
+            st.error("Failed to parse equalization curve. The generated text might not be in the expected format.")
+            st.stop()
+        except:
+            st.error("An unexpected error occurred while parsing the equalization curve. Please try again with a different prompt.")
             st.stop()
     else:
         st.error("Equalization curve not found. Please try again with a different prompt.")
@@ -64,4 +70,4 @@ if audio_file is not None:
     ax.set_title("Recommended Equalization Curve")
 
     # Display the Matplotlib figure in Streamlit
-    st.pyplot(fig) 
+    st.pyplot(fig)
