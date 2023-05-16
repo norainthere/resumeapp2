@@ -23,7 +23,7 @@ fig, ax = plt.subplots()
 st.title("Ezra🎚️🏳️‍⚧️")
 
 # Get user input for additional text prompt
-additional_prompt = st.text_input("Describe your desired EQ")
+additional_prompt = st.text_input("Describe the qualities of your desired EQ")
 
 # Add error handling for missing API key
 try:
