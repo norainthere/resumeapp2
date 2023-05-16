@@ -1,12 +1,9 @@
 from typing import Tuple
+import openai
 import streamlit as st
 import librosa
 import matplotlib.pyplot as plt
 import numpy as np
-import openai
-
-# Set OpenAI API key from Streamlit secrets
-openai.api_key = st.secrets["openai_api_key"]
 
 # Constants
 sr = 22050
@@ -47,9 +44,9 @@ def extract_audio_features(audio_file: str) -> Tuple[np.ndarray, int]:
 def generate_eq_curve(D: np.ndarray, additional_prompt: str,
                       specific_quality: str, specific_issue: str) -> np.ndarray:
     # TODO: Implement equalization curve generation based on audio features and user input
-    # For demonstration purposes, let's generate a random equalization curve
-    num_bins = D.shape[0]
-    eq_curve = np.random.uniform(low=-12, high=12, size=num_bins)
+    # Use the OpenAI language model to generate the EQ curve based on inputs
+    # Replace this code with your implementation
+    eq_curve = np.random.uniform(low=-12, high=12, size=D.shape[0])
     return eq_curve
 
 
@@ -62,6 +59,11 @@ def plot_eq_curve(curve: np.ndarray, sr: int, ax: plt.Axes) -> None:
     ax.set_xlabel("Frequency (Hz)")
     ax.set_ylabel("Gain (dB)")
     ax.set_title("Equalization Curve")
+
+
+# Set the OpenAI API key from Streamlit secrets
+api_key = st.secrets["openai_api_key"]
+openai.api_key = api_key
 
 
 # Generate equalization curve based on the uploaded audio file and additional prompt
