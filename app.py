@@ -9,7 +9,7 @@ import os
 openai_model = 'text-davinci-003'
 
 # Set up OpenAI Playground Trained Model
-playground_model = "Wendy"
+playground_model = "ezra"
 
 # Set up audio processing parameters
 sr = 44100  # Sample rate
