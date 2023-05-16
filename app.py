@@ -48,7 +48,7 @@ if audio_file is not None:
     response = openai.Completion.create(
         engine="davinci",
         prompt=prompt,
-        max_tokens=2000
+        max_tokens=4000
     )
 
     # Add error handling for empty response
