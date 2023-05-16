@@ -21,9 +21,7 @@ fig, ax = plt.subplots()
 class EQModel(nn.Module):
     ...
 
-model = EQModel()
-model.load_state_dict(torch.load('eq_model.pth'))
-model.eval()
+model = EQModel()  # Define untrained model
 
 # App framework  
 st.title("Ezra🎚️🏳️‍⚧️")  
