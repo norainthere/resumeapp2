@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os
 
 # Set up OpenAI Client
-# openai.api_key = st.secrets["openai"]["openai_api_key"]
+openai.api_key = st.secrets["openai"]["openai_api_key"]
 openai_model = 'text-davinci-003'
 
 # Set up OpenAI Playground Trained Model
