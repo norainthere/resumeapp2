@@ -6,7 +6,7 @@ import os
 
 # Set up OpenAI Client
 openai.api_key = st.secrets["openai"]["openai_api_key"]
-openai_model = 'text-davinci-003'
+openai_model = 'davinci'
 
 # Set up OpenAI Playground Trained Model
 playground_model = "ezra"
