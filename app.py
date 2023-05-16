@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os
 
 # Fetch OpenAI API key from environment variable
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+# openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # Set up OpenAI Client
 openai.api_key = st.secrets["openai"]["openai_api_key"]
@@ -23,7 +23,7 @@ fig, ax = plt.subplots()
 st.title("Ezra🎚️🏳️‍⚧️")
 
 # Get user input for additional text prompt
-additional_prompt = st.text_input("Describe the qualities of your desired EQ")
+additional_prompt = st.text_input("Describe your desired EQ")
 
 # Add error handling for missing API key
 try:
