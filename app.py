@@ -25,12 +25,9 @@ st.title("Ezra🎚️🏳️‍⚧️")
 # Get user input for additional text prompt
 additional_prompt = st.text_input("Describe the qualities of your desired EQ")
 
-# Add error handling for missing API key
-try:
-    api_key = st.secrets["openai"]["openai_api_key"]
-except KeyError:
-    st.error("OpenAI API key not found. Please set the OPENAI_API_KEY in Streamlit secrets.")
-    st.stop()
+# Get user input for specific quality and issue
+specific_quality = st.text_input("Specify the specific quality you want to enhance")
+specific_issue = st.text_input("Specify the specific issue you want to reduce")
 
 # Upload an audio file
 audio_file = st.file_uploader("Upload your audio file", type=["mp3", "wav", "ogg"])
@@ -47,13 +44,12 @@ if audio_file is not None:
         st.stop()
 
     # Use the OpenAI API to generate a text prompt for the equalization curve
-    with st.spinner("Generating equalization curve..."):
-        response = openai.Completion.create(
-            engine="davinci",
-            prompt=f"Generate an equalization curve for the uploaded audio file. {additional_prompt}",
-            max_tokens=2000,
-            api_key=api_key,
-        )
+    prompt = f"Generate an equalization curve for the uploaded audio file. The audio has {additional_prompt}. The desired equalization should enhance the {specific_quality} and reduce the {specific_issue}."
+    response = openai.Completion.create(
+        engine="davinci",
+        prompt=prompt,
+        max_tokens=2000
+    )
 
     # Add error handling for empty response
     if not response.choices:
@@ -63,10 +59,16 @@ if audio_file is not None:
     eq_text = response.choices[0].text
 
     # Validate and parse the equalization curve from the generated text
+    eq_curve = []
     try:
         eq_curve = list(map(float, eq_text.strip().split()))
     except ValueError:
         st.error("Invalid equalization curve format. Please try again with a different prompt.")
+        st.stop()
+
+    # Check if the parsed equalization curve is empty
+    if not eq_curve:
+        st.error("Equalization curve not found. Please try again with a different prompt.")
         st.stop()
 
     # Plot the equalization curve on the Matplotlib figure
