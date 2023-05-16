@@ -26,7 +26,7 @@ hop_length = n_fft // 4 # Hop length for STFT
 fig, ax = plt.subplots()  
 
 # App framework  
-#st.title("Ezra")  
+st.title("Ezra🎚️🏳️‍⚧️")  
 
 # Get user input for additional text prompt
 additional_prompt = st.text_input("Describe the qualities of your desired eq")  
