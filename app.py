@@ -5,8 +5,11 @@ import matplotlib.pyplot as plt
 import os
 
 # Set up OpenAI Client
-openai.api_key = st.secrets["openai"]["openai_api_key"]
+# openai.api_key = st.secrets["openai"]["openai_api_key"]
 openai_model = 'text-davinci-003'
+
+# Set up OpenAI Playground Trained Model
+playground_model = "Wendy"
 
 # Set up audio processing parameters
 sr = 44100  # Sample rate
@@ -24,9 +27,9 @@ additional_prompt = st.text_input("Describe the qualities of your desired EQ")
 
 # Add error handling for missing API key
 try:
-    openai.api_key
-except:
-    st.error("OpenAI API key not found. Please set the OPENAI_API_KEY environment variable.")
+    api_key = st.secrets["openai"]["openai_api_key"]
+except KeyError:
+    st.error("OpenAI API key not found. Please set the OPENAI_API_KEY in Streamlit secrets.")
     st.stop()
 
 # Upload an audio file
@@ -44,12 +47,13 @@ if audio_file is not None:
         st.stop()
 
     # Use the OpenAI API to generate a text prompt for the equalization curve
-    prompt = f"Generate an equalization curve for the uploaded audio file. {additional_prompt}"
-    response = openai.Completion.create(
-        engine="davinci",
-        prompt=prompt,
-        max_tokens=2000
-    )
+    with st.spinner("Generating equalization curve..."):
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt=f"Generate an equalization curve for the uploaded audio file. {additional_prompt}",
+            max_tokens=2000,
+            api_key=api_key,
+        )
 
     # Add error handling for empty response
     if not response.choices:
