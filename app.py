@@ -43,23 +43,45 @@ def extract_audio_features(audio_file: str) -> Tuple[np.ndarray, int]:
 # Generate equalization curve
 def generate_eq_curve(D: np.ndarray, additional_prompt: str,
                       specific_quality: str, specific_issue: str) -> np.ndarray:
-    # TODO: Implement equalization curve generation based on audio features and user input
-    # Use the OpenAI language model to generate the EQ curve based on inputs
-    # Replace this code with your implementation
-    eq_curve = np.random.uniform(low=-12, high=12, size=D.shape[0])
+    # Convert user input to prompt format
+    prompt = f"Additional Prompt: {additional_prompt}\nSpecific Quality: {specific_quality}\nSpecific Issue: {specific_issue}\n"
+    
+    # Generate equalization curve using OpenAI language model
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        max_tokens=100,
+        n=1,
+        stop=None,
+        temperature=0.7,
+        top_p=1.0,
+        frequency_penalty=0.0,
+        presence_penalty=0.0
+    )
+    
+    # Extract the generated curve from the OpenAI response
+    generated_curve = response.choices[0].text.strip()
+    
+    # Parse the generated curve into an array of floats
+    eq_curve = np.array(list(map(float, generated_curve.split())))
+    
     return eq_curve
 
 
 # Plot the equalization curve
 def plot_eq_curve(curve: np.ndarray, sr: int, ax: plt.Axes) -> None:
-    # TODO: Implement equalization curve plotting
-    # For demonstration purposes, let's plot the equalization curve as a line
+    # Plot the equalization curve
     frequency_bins = np.arange(curve.shape[0]) * (sr / 2) / curve.shape[0]
     ax.plot(frequency_bins, curve)
     ax.set_xlabel("Frequency (Hz)")
     ax.set_ylabel("Gain (dB)")
     ax.set_title("Equalization Curve")
 
+
+# Check if the OpenAI API key is available in Streamlit secrets
+if "openai_api_key" not in st.secrets:
+    st.error("OpenAI API key not found in Streamlit secrets.")
+    st.stop()
 
 # Set the OpenAI API key from Streamlit secrets
 api_key = st.secrets["openai_api_key"]
@@ -70,12 +92,12 @@ openai.api_key = api_key
 if audio_file is not None:
     # Extract audio features
     D, sr = extract_audio_features(audio_file)
+# Generate EQ curve
+curve = generate_eq_curve(D, additional_prompt, specific_quality, specific_issue)
 
-    # Generate EQ curve
-    curve = generate_eq_curve(D, additional_prompt, specific_quality, specific_issue)
+# Plot the equalization curve
+plot_eq_curve(curve, sr, ax)
 
-    # Plot the equalization curve
-    plot_eq_curve(curve, sr, ax)
+# Display the equalization curve
+st.pyplot(fig)
 
-    # Display the equalization curve
-    st.pyplot(fig)
