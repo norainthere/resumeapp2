@@ -10,10 +10,17 @@ target_size = 1  # Define the target size (EQ curve) of the model
 class EQModel(nn.Module):
     def __init__(self, input_size, target_size):
         super(EQModel, self).__init__()
-        # Define your model architecture here
+        self.fc1 = nn.Linear(input_size, 64)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(64, 64)
+        self.fc3 = nn.Linear(64, target_size)
 
     def forward(self, x):
-        # Define the forward pass of your model
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        x = self.relu(x)
+        x = self.fc3(x)
         return x
 
 # Define the synthetic dataset
