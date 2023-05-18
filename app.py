@@ -30,7 +30,9 @@ class EQModel(nn.Module):
 
 # Load or instantiate your model here
 model = EQModel()
-model.load_state_dict(torch.load("eq_model_weights.pth"))  # Load the trained model weights
+
+# Load the trained model weights
+model.load_state_dict(torch.load("models/eq_model_weights.pth"))
 
 # App framework
 st.title("Ezra🎚️🏳️‍⚧️")
