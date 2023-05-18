@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader, Dataset
 input_size = 10  # Define the input size of the EQ model
 target_size = 1  # Define the target size (EQ curve) of the model
 
-# Define the EQ model
+# Define the EQ model≠
 class EQModel(nn.Module):
     def __init__(self, input_size, target_size):
         super(EQModel, self).__init__()
