@@ -32,7 +32,7 @@ class EQModel(nn.Module):
 model = EQModel()
 
 # Load the trained model weights
-model.load_state_dict(torch.load("models/eq_model_weights.pth"))
+model.load_state_dict(torch.load("eq_model_weights.pth"))
 
 # App framework
 st.title("Ezra🎚️🏳️‍⚧️")
@@ -74,7 +74,14 @@ def generate_eq_curve(D: torch.Tensor, additional_prompt: str, specific_quality:
 
 # Plot the equalization curve
 def plot_eq_curve(curve: np.ndarray, sr: int, ax: plt.Axes) -> None:
-    ...
+    freq_bins = np.linspace(0, sr // 2, len(curve))
+
+    ax.plot(freq_bins, curve)
+    ax.set_xlabel('Frequency (Hz)')
+    ax.set_ylabel('Gain (dB)')
+    ax.set_title('Equalization Curve')
+    ax.grid(True)
+
 
 # Generate equalization curve based on the uploaded audio file and additional prompt
 if audio_file is not None:
